@@ -1,6 +1,18 @@
 # Password Strength Calculator
 
-[TODO. There will be project description]
+A small script for password strength calculation.
+
+It prints a number from 1 to 10. 1 means that password is weak, 10 means that password is strong. 
+
+## How to use
+This script requires python interpreter of version 3.5 or higher
+
+### Example  
+```
+python password_strength.py
+Enter a password to analyze:
+The password strength is 5 point out of 10
+```
 
 # Project Goals
 
