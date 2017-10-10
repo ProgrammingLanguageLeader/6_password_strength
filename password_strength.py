@@ -2,16 +2,16 @@ import getpass
 
 
 def is_case_sensitive(password):
-    return (not password.isupper()) and \
-           (not password.islower()) and \
-           (not password.isnumeric())
+    return not password.isupper() and \
+           not password.islower() and \
+           not password.isnumeric()
 
 
 def contains_numerals(password):
-    result = False
+    contains = False
     for numeral in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
-        result = result or (password.find(numeral) != -1)
-    return result
+        contains = contains or (password.find(numeral) != -1)
+    return contains
 
 
 def contains_letters(password):
@@ -20,10 +20,10 @@ def contains_letters(password):
 
 def contains_special_chars(password):
     special_chars_string = '" !"#$%&\'()*+,-./:;<=>?@[\]^_`{|}~"'
-    result = False
+    contains = False
     for char in special_chars_string:
-        result = result or password.find(char) != -1
-    return result
+        contains = contains or password.find(char) != -1
+    return contains
 
 
 def is_very_long(password):
@@ -71,17 +71,16 @@ def get_password_strength(password):
     if is_in_the_blacklist(password) or is_short(password):
         return 1
 
+    strength = 1
     if is_very_long(password):
-        result = 3
+        strength = 3
     elif is_long(password):
-        result = 2
-    else:
-        result = 1
-    result += int(is_case_sensitive(password)) * 2
-    result += int(contains_numerals(password) and contains_letters(password)) * 2
-    result += int(contains_numerals(password) and contains_special_chars(password)) * 2
-    result += int(contains_letters(password) and contains_special_chars(password)) * 2
-    return result if result < 10 else 10
+        strength = 2
+    strength += int(is_case_sensitive(password)) * 2
+    strength += int(contains_numerals(password) and contains_letters(password)) * 2
+    strength += int(contains_numerals(password) and contains_special_chars(password)) * 2
+    strength += int(contains_letters(password) and contains_special_chars(password)) * 2
+    return strength if strength < 10 else 10
 
 
 if __name__ == '__main__':
