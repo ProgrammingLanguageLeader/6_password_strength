@@ -89,7 +89,7 @@ def get_password_strength(password):
     good_signs = {
         is_very_long: 3,
         is_long: 2,
-        is_case_sensitive : 2,
+        is_case_sensitive: 2,
         contains_numerals_and_letters: 2,
         contains_numerals_and_special_chars: 2,
         contains_letters_and_special_chars: 2
