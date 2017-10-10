@@ -48,42 +48,9 @@ def is_short(password):
     return len(password) <= 6
 
 
-def is_in_the_blacklist(password):
-    blacklist = [
-        'qwerty',
-        'password',
-        'football',
-        'princess',
-        'login',
-        'welcome',
-        'solo',
-        'admin',
-        'flower',
-        'dragon',
-        'sunshine',
-        'master',
-        'hottie',
-        'love',
-        'monkey',
-        'baseball',
-        'ashley',
-        'bailey',
-        'shadow',
-        'superman',
-        'mustang',
-        'google',
-        'facebook'
-    ]
-    return password.lower() in blacklist
-
-
-def get_password_strength(password):
+def get_password_strength(password, blacklist):
     strength = 1
-    bad_signs = [
-        is_in_the_blacklist,
-        is_short
-    ]
-    if any(bad_sign(password) for bad_sign in bad_signs):
+    if password in blacklist or is_short(password):
         return strength
 
     good_signs = {
@@ -99,10 +66,22 @@ def get_password_strength(password):
     return strength if strength < 10 else 10
 
 
+def read_blacklist_from_file(filepath):
+    try:
+        with open(filepath, 'r') as blacklist_file:
+            return blacklist_file.readlines()
+    except IOError:
+        return None
+    
+
 if __name__ == '__main__':
     password = getpass.getpass(prompt='Enter a password to analyze: ')
+    blacklist = read_blacklist_from_file('blacklist.txt')
+    if not blacklist:
+        print('Check file "blacklist.txt"')
+        exit(0)
     print(
         'The password strength is {} point out of 10'.format(
-            get_password_strength(password)
+            get_password_strength(password, blacklist)
         )
     )
