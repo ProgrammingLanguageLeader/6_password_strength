@@ -72,14 +72,13 @@ def read_blacklist_from_file(filepath):
             return blacklist_file.readlines()
     except IOError:
         return None
-    
+
 
 if __name__ == '__main__':
     password = getpass.getpass(prompt='Enter a password to analyze: ')
     blacklist = read_blacklist_from_file('blacklist.txt')
     if not blacklist:
-        print('Check file "blacklist.txt"')
-        exit(0)
+        exit('Check file "blacklist.txt"')
     print(
         'The password strength is {} point out of 10'.format(
             get_password_strength(password, blacklist)
